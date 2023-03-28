@@ -6,16 +6,16 @@
         {% csrf_token %}
         <div class="form-group mt-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name" />
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name" required pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$" />
         </div>
         <div class="form-group mt-3">
             <label for="name" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email" />
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email" required pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group mt-3">
             <label for="name" class="form-label">Phone</label>
-            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone Number" />
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone Number" required pattern="^[0-9]+$"/>
         </div>
         <div class="form-group mt-3">
             <div class="form-group">
@@ -26,4 +26,14 @@
         <button type="submit" class="btn btn-success mt-3 btn-lg">Submit</button>
     </form>
 </div>
-{% endblock body %} {% block js %}{% endblock js %}
+{% endblock body %} {% block js %}
+<script>
+    document.getElementById("contact").className = "nav-link active";
+
+    {% if thank == 1 %}
+    $("#alerts").prepend(`<div class="alert alert-success alert-dismissible fade show" role="alert"><span>Thanks for contacting us, we will reach back to you soon!</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>`);
+    {% endif %}
+</script>
+{% endblock js %}
