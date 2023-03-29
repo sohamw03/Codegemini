@@ -1,10 +1,83 @@
 {% extends '../base.html' %}
-{% block title %}Home{% endblock title %}
+{% block title %}Blog{% endblock title %}
 
-{% block css %}{% endblock css %}
+{% block css %}
+<style>
+    .thumbnail {
+        width: 28rem;
+        height: 100%;
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: bottom;
+    }
+
+    .sidecont {
+        height: 100%;
+        width: 10rem;
+    }
+
+    .sidecont p {
+        overflow-y: hidden;
+    }
+
+    .postcard {
+        height: 15rem;
+    }
+</style>
+{% endblock css %}
 
 {% block body %}
-<h1>This is home.</h1>
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center my-5">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Heaven for programmers</h1>
+                    <p class="lead text-white-50 mb-4">Technology blog that covers news, development and trends in web
+                        development and technology.</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/blog">Get Started</a>
+                        <a class="btn btn-outline-light btn-lg px-4" href="/about">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Blogpost section-->
+<section class="py-5 border-bottom" id="features">
+    <div class="container px-5 md-2">
+        <h2 class="fw-bolder">Popular Blogposts</h2>
+        <div class="row my-3">
+            {% for post in allPosts %}
+            <div
+                class="row g-0 border border-2 rounded-4 overflow-hidden flex-md-row mb-4 h-md-250 position-relative postcard">
+                <div class="col p-4 d-flex flex-column position-static sidecont">
+                    <h3 class="mb-0">{{post.title}}</h3>
+                    <div class="mb-1 text-muted">{{post.timestamp}} by {{post.author}}</div>
+                    <p class="card-text mb-1">{{post.content|truncatechars:600}}</p>
+                    <a href="{{post.get_absolute_url}}" class="stretched-link text-decoration-none">Read more</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container px-5">
+        <p class="m-0 text-center text-white">Copyright &copy; iCoder-Soham 2023</p>
+    </div>
+</footer>
+
 {% endblock body %}
 
-{% block js %}{% endblock js %}
+{% block js %}
+<script>
+    document.getElementById("home").className = "nav-link active";
+</script>
+{% endblock js %}

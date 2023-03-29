@@ -1,10 +1,39 @@
-{% extends '../base.html' %}
-{% block title %}Blog{% endblock title %}
+{% extends '../base.html' %} {% block title %}Blog{% endblock title %} {% block css %}
+<style>
+    .sidecont {
+        height: 100%;
+        width: 100%;
+    }
 
-{% block css %}{% endblock css %}
+    .sidecont p {
+        overflow-y: hidden;
+    }
 
-{% block body %}
-<h1>This is blog home.</h1>
-{% endblock body %}
-
-{% block js %}{% endblock js %}
+    .postcard {
+        height: 15rem;
+    }
+</style>
+{% endblock css %} {% block body %}
+<!-- Blogpost section-->
+<section class="py-4" id="features">
+    <div class="container px-5 md-2">
+        <h2 class="fw-bolder">Coding articles by iCoder</h2>
+        <div class="row my-3">
+            {% for post in allPosts %}
+            <div class="row g-0 border border-2 rounded-4 overflow-hidden flex-md-row mb-4 h-md-250 position-relative postcard">
+                <div class="col p-4 d-flex flex-column position-static sidecont">
+                    <h3 class="mb-0">{{post.title}}</h3>
+                    <div class="mb-1 text-muted">{{post.timestamp}} by {{post.author}}</div>
+                    <p class="card-text mb-1">{{post.content|truncatechars:600}}</p>
+                    <a href="{{post.get_absolute_url}}" class="stretched-link text-decoration-none">Read more</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock body %} {% block js %}
+<script>
+    document.getElementById("blog").className = "nav-link active";
+</script>
+{% endblock js %}
