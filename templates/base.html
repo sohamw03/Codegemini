@@ -1,44 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{% block title %}{% endblock title %}</title>
-        {% block css %}{% endblock css %}
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous" />
-        <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">iCoder</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock title %}</title>
+    {% block css %}{% endblock css %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <style>
+        #modalbtn {
+            margin-left: 0.5rem;
+        }
+
+        .modal-content {
+            width: 100%;
+        }
+
+        .modal-dialog-centered {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            min-height: calc(100% - (.5rem * 2));
+        }
+
+        @media (min-width: 576px) {
+            .modal-dialog-centered {
+                min-height: calc(100% - (1.75rem * 2));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">iCoder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/" id="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/about" id="about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/blog" id="blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/contact" id="contact">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search" action="/search" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
+                        id="query" />
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary bg-primary-subtle" id="modalbtn" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">
+                    Login
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/" id="home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/about" id="about">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/blog" id="blog">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/contact" id="contact">Contact</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Signup modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="signupModalLabel">Sign up</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="signupInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="signupInputEmail1"
+                                aria-describedby="emailHelp" name="username">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupInputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signupInputPassword1" name="password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupInputPassword2" class="form-label">Reenter Password</label>
+                            <input type="password" class="form-control" id="signupInputPassword2" name="rpassword">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign up</button>
                     </form>
+                    <a href="" style="display: block; text-align: center;" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">Have an account? Login instead</a>
                 </div>
             </div>
-        </nav>
-        {% block body %}{% endblock body %}
-    </body>
-    {% block js %}{% endblock js %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+        </div>
+    </div>
+
+    <!-- Login modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="loginModalLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="loginInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="loginInputEmail1" aria-describedby="emailHelp" name="username">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginInputPassword1" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginInputPassword1" name="password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <a href="" style="display: block; text-align: center;" data-bs-toggle="modal"
+                        data-bs-target="#signupModal">Don't have an account? Sign up instead</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block body %}{% endblock body %}
+</body>
+{% block js %}{% endblock js %}
+
 </html>

@@ -1,0 +1,38 @@
+{% extends '../base.html' %} {% block title %}Search results{% endblock title %} {% block css %}
+<style>
+    .sidecont {
+        height: 100%;
+        width: 100%;
+    }
+
+    .sidecont p {
+        overflow-y: hidden;
+    }
+
+    .postcard {
+        height: 12rem;
+    }
+</style>
+{% endblock css %} {% block body %}
+<!-- Blogpost section-->
+<section class="py-4" id="features">
+    <div class="container px-5 md-2">
+        <h2 class="fw-bolder">Search results for <span class="text-success fs-4">{{query}}</span></h2>
+        <div class="row my-3">
+            {% if allPosts|length == 0 %}
+            <h4>Sorry no posts containing the word(s) <span class="text-success fs-4">{{query}}</span></h4>
+            {% endif %} 
+            {% for post in allPosts %}
+            <div class="row g-0 border border-2 rounded-4 overflow-hidden flex-md-row mb-4 h-md-250 position-relative postcard">
+                <div class="col p-4 d-flex flex-column position-static sidecont">
+                    <h3 class="mb-0">{{post.title}}</h3>
+                    <div class="mb-1 text-muted">{{post.timestamp}} by {{post.author}}</div>
+                    <p class="card-text mb-1">{{post.content|truncatechars:270}}</p>
+                    <a href="{{post.get_absolute_url}}" class="stretched-link text-decoration-none">Read more</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock body %} {% block js %} {% endblock js %}
