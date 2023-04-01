@@ -50,7 +50,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/" id="home">Home</a>
                     </li>
@@ -69,14 +69,38 @@
                         id="query" />
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
+                {% if not user.is_authenticated %}
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary bg-primary-subtle" id="modalbtn" data-bs-toggle="modal"
                     data-bs-target="#loginModal">
                     Login
                 </button>
+                {% else %}
+                <ul class="navbar-nav mb-2 mb-lg-0 ms-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{request.user}}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" style="color: red;" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% endif %}
             </div>
         </div>
     </nav>
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show m-1" role="alert">
+        <strong>•</strong> {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
 
     <!-- Signup modal -->
     <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
@@ -87,20 +111,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="/signup" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="loginInputName1" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="loginInputName1" aria-describedby="name"
+                                name="name" required>
+                        </div>
                         <div class="mb-3">
                             <label for="signupInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="signupInputEmail1"
-                                aria-describedby="emailHelp" name="username">
+                            <input type="email" class="form-control" id="signupInputEmail1" aria-describedby="emailHelp"
+                                name="email" required>
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         </div>
                         <div class="mb-3">
                             <label for="signupInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="signupInputPassword1" name="password">
+                            <input type="password" class="form-control" id="signupInputPassword1" name="password"
+                                required>
                         </div>
                         <div class="mb-3">
                             <label for="signupInputPassword2" class="form-label">Reenter Password</label>
-                            <input type="password" class="form-control" id="signupInputPassword2" name="rpassword">
+                            <input type="password" class="form-control" id="signupInputPassword2" name="rpassword"
+                                required>
                         </div>
                         <button type="submit" class="btn btn-primary">Sign up</button>
                     </form>
@@ -120,15 +152,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="/login" method="post">
+                        {% csrf_token %}
                         <div class="mb-3">
-                            <label for="loginInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="loginInputEmail1" aria-describedby="emailHelp" name="username">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <label for="loginInputName2" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="loginInputName2" aria-describedby="name"
+                                name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="loginInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginInputPassword1" name="password">
+                            <input type="password" class="form-control" id="loginInputPassword1" name="password"
+                                required>
                         </div>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>

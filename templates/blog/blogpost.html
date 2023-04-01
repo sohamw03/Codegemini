@@ -4,7 +4,7 @@
 {% block css %}{% endblock css %}
 
 {% block body %}
-<div class="container px-5">
+<div class="container px-5 border-bottom">
     <div class="row g-5 mt-1 mb-4">
         <div class="d-grid gap-2 d-md-flex justify-content-between my-4" id="back">
             <a href="/blog"><button id="backbutton" type="button"
@@ -36,6 +36,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="container px-5 mt-4">
+    <h2>Comments</h2>
+    <div class="row my-2">
+        <div class="col-md-1">Image here</div>
+        <div class="col-md-9">Comment here</div>
     </div>
 </div>
 {% endblock body %}
