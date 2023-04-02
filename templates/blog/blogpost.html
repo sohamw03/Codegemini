@@ -13,7 +13,8 @@
         <div class="col-md-8 mt-2">
             <article class="blog-post">
                 <h3 class="pb-2 fst-italic">{{post.title}}</h3>
-                <p class="blog-post-meta text-body-secondary border-bottom border-2 mb-3 pb-1">{{post.timestamp}} by {{post.author}}</p>
+                <p class="blog-post-meta text-body-secondary border-bottom border-2 mb-3 pb-1">{{post.timestamp}} by
+                    {{post.author}}</p>
                 <p>{{post.content}}</p>
             </article>
         </div>
@@ -39,10 +40,31 @@
     </div>
 </div>
 <div class="container px-5 mt-4">
-    <h2>Comments</h2>
-    <div class="row my-2">
-        <div class="col-md-1">Image here</div>
-        <div class="col-md-9">Comment here</div>
+    <h2>Comments ({{comments|length}})</h2>
+    <form action="/blog/postcomment" method="post">
+        {% csrf_token %}
+        <div class="input-group my-3 shadow-sm">
+            <input type="hidden" name="postid" value="{{post.sno}}">
+            <span class="input-group-text bg-success-subtle rounded-start fw-bolder" id="basic-addon3">{{request.user.username}}</span>
+            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="comment"
+                id="comment" placeholder="Enter comment here">
+            <button type="submit" class="btn btn-outline-success">Send</button>
+        </div>
+    </form>
+    <div class="" id="comments" style="max-height: 100rem; margin-bottom: 5rem;">
+        {% for comment in comments %}
+        <div class="row py-3 border-top">
+            {% load static %}
+            <div class="col-md-1 p-0"><img src="{% static 'img/account_circle.png' %}" class="img-thumbnail rounded-circle border-0 p-0 float-end" alt="..."></div>
+            <div class="col-md-11">
+                {% load humanize %}
+                <span class="fw-bolder fs-5">{{comment.user.username}}</span><span class="text-secondary"> {{comment.timestamp|naturaltime}}</span>
+                <div style="overflow-wrap: anywhere;">
+                    {{comment.data}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock body %}

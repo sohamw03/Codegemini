@@ -27,3 +27,6 @@ class Comment(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(default=now)
     
+    def __str__(self):
+        return self.data[:15] + "... by " + str(self.user)
+    
