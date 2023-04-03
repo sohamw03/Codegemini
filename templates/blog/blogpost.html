@@ -44,23 +44,64 @@
     <form action="/blog/postcomment" method="post">
         {% csrf_token %}
         <div class="input-group my-3 shadow-sm">
-            <input type="hidden" name="postid" value="{{post.sno}}">
-            <span class="input-group-text bg-success-subtle rounded-start fw-bolder" id="basic-addon3">{{request.user.username}}</span>
+            <input type="hidden" name="postSno" value="{{post.sno}}">
+            <input type="hidden" name="parentSno" value="">
+            <span class="input-group-text bg-success-subtle rounded-start fw-bolder"
+                id="basic-addon3">{{request.user.username}}</span>
             <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="comment"
-                id="comment" placeholder="Enter comment here">
-            <button type="submit" class="btn btn-outline-success">Send</button>
+                id="comment" placeholder="Add a comment..." required>
+            <button type="submit" class="btn btn-outline-success">Comment</button>
         </div>
     </form>
-    <div class="" id="comments" style="max-height: 100rem; margin-bottom: 5rem;">
+    <div class="" id="comments" style="margin-bottom: 5rem;">
         {% for comment in comments %}
         <div class="row py-3 border-top">
             {% load static %}
-            <div class="col-md-1 p-0"><img src="{% static 'img/account_circle.png' %}" class="img-thumbnail rounded-circle border-0 p-0 float-end" alt="..."></div>
+            <div class="col-md-1 p-0"><img src="{% static 'img/account_circle.png' %}"
+                    class="img-thumbnail rounded-circle border-0 p-0 float-end" alt="..."></div>
             <div class="col-md-11">
                 {% load humanize %}
-                <span class="fw-bolder fs-5">{{comment.user.username}}</span><span class="text-secondary"> {{comment.timestamp|naturaltime}}</span>
+                <span class="fw-bolder fs-5">{{comment.user.username}}</span><span class="text-secondary">
+                    {{comment.timestamp|naturaltime}}</span>
                 <div style="overflow-wrap: anywhere;">
                     {{comment.data}}
+                </div>
+                <div class="replybox">
+                    <button class="btn btn-outline bg-success-subtle btn-sm rounded-pill mt-1 px-2" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#reply{{comment.sno}}" aria-expanded="false"
+                        aria-controls="collapseExample">
+                        Reply
+                    </button>
+                    <div class="collapse" id="reply{{comment.sno}}">
+                        <form action="/blog/postcomment" method="post">
+                            {% csrf_token %}
+                            <div class="input-group my-2">
+                                <input type="hidden" name="postSno" value="{{post.sno}}">
+                                <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                                <span class="input-group-text bg-success-subtle rounded-start fw-bolder"
+                                    id="basic-addon3">{{request.user.username}}</span>
+                                <input type="text" class="form-control" aria-describedby="basic-addon3"
+                                    name="comment" id="comment{{comment.sno}}" placeholder="Add a reply..." required>
+                                <button type="submit" class="btn btn-outline-success">Reply</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% load extras %}
+                    <div class="replies" style="zoom: 0.8;">
+                        {% for reply in replyDict|get_rep_filter:comment.sno %}
+                        <div class="row py-3">
+                            {% load static %}
+                            <div class="col-md-1 p-0"><img src="{% static 'img/account_circle.png' %}"
+                                    class="img-thumbnail rounded-circle border-0 p-0 float-end" alt="..."></div>
+                            <div class="col-md-11">
+                                {% load humanize %}
+                                <span class="fw-bolder fs-5">{{reply.user.username}}</span>
+                                <span class="text-secondary">{{reply.timestamp|naturaltime}}</span>
+                                <div style="overflow-wrap: anywhere;">{{reply.data}}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,4 +110,5 @@
 </div>
 {% endblock body %}
 
-{% block js %}{% endblock js %}
+{% block js %}
+{% endblock js %}

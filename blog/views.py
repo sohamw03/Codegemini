@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse, redirect
 from .models import Post, Comment
 from django.contrib import messages
 import django.utils
+from blog.templatetags import extras
+
 
 # Create your views here.
 def blogHome(request):
@@ -12,22 +14,35 @@ def blogHome(request):
 
 def blogPost(request, slug):
     post = Post.objects.filter(slug=slug).first()
-    comments = Comment.objects.filter(post=post)
-    context = {"post": post, "comments": comments}
+    comments = Comment.objects.filter(post=post, parent=None)
+    replies = Comment.objects.filter(post=post).exclude(parent=None)
+    replyDict = {}
+    for reply in replies:
+        if reply.parent.sno not in replyDict.keys():
+            replyDict[reply.parent.sno] = [reply]
+        else:
+            replyDict[reply.parent.sno].append(reply)
+    context = {"post": post, "comments": comments, "replyDict": replyDict}
     return render(request, "blog/blogpost.html", context)
+
 
 # APIs
 def postComment(request):
     if request.method == "POST":
         data = request.POST.get("comment")
         user = request.user
-        print(user, type(user))
-        postsno = request.POST.get("postid")
-        post = Post.objects.get(sno=postsno)
+        postSno = request.POST.get("postSno")
+        post = Post.objects.get(sno=postSno)
+        parentSno = request.POST.get("parentSno")
         if not request.user.is_anonymous:
-            comments = Comment(data=data, user=user, post=post)
+            if parentSno == "":
+                comments = Comment(data=data, user=user, post=post)
+                messages.success(request, "Your comment has been posted succesfully")
+            else:
+                parent = Comment.objects.get(sno=parentSno)
+                comments = Comment(data=data, user=user, post=post, parent=parent)
+                messages.success(request, "Your reply has been posted succesfully")
             comments.save()
-            messages.success(request, "Your comment has been posted succesfully")
         else:
-            messages.warning(request, "Please login or signup to post comments")
+            messages.warning(request, "Please login or signup to access our community")
     return redirect(f"/blog/{post.slug}")
