@@ -1,6 +1,6 @@
 # iCoder Blog Project
 
-This is a blogging platform developed by Somatitoa. The project includes various features such as authentication, comments, and a TinyMCE editor for the admin panel. The platform is developed using Django, Bootstrap, JQuery and HTML, CSS, JS.
+The project includes various features such as authentication, comments, and a TinyMCE editor for the admin panel. The platform is developed using Django, Bootstrap, JQuery and HTML, CSS, JS.
 
 ## Screenshots
 
