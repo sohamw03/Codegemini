@@ -59,7 +59,7 @@
                 <div class="col p-4 d-flex flex-column position-static sidecont">
                     <h3 class="mb-0">{{post.title}}</h3>
                     <div class="mb-1 text-muted">{{post.timestamp}} by {{post.author}}</div>
-                    <p class="card-text mb-1">{{post.content|truncatechars:600}}</p>
+                    <p class="card-text mb-1">{{post.content|truncatechars:600|striptags|safe}}</p>
                     <a href="{{post.get_absolute_url}}" class="stretched-link text-decoration-none">Read more</a>
                 </div>
             </div>

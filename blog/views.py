@@ -9,6 +9,7 @@ from blog.templatetags import extras
 def blogHome(request):
     allPosts = Post.objects.all()
     context = {"allPosts": allPosts}
+    print(allPosts)
     return render(request, "blog/bloghome.html", context)
 
 
