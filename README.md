@@ -1,4 +1,4 @@
-# iCoder Blog Project
+# Codegemini Blog Project
 
 The project includes various features such as authentication, comments, and a TinyMCE editor for the admin panel. The platform is developed using Django, Bootstrap, JQuery and HTML, CSS, JS.
 
