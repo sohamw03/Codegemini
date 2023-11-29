@@ -4,7 +4,7 @@ The project includes various features such as authentication, comments, and a Ti
 
 ## Screenshots
 
-Here are some screenshots of the iCoder Blog Project:
+Here are some screenshots of the Codegemini Blog Project:
 
 * Home page
 ![image](https://user-images.githubusercontent.com/102748742/236445853-6f8bc578-dcee-44f3-8e96-3b6a72e5e44f.png)
@@ -20,7 +20,7 @@ Here are some screenshots of the iCoder Blog Project:
 
 ## Features
 
-The iCoder Blog Project includes the following features:
+The Codegemini Blog Project includes the following features:
 
 * Authentication
   * Signup
@@ -39,11 +39,11 @@ The iCoder Blog Project includes the following features:
 
 ## Setup
 
-To set up the iCoder Blog Project, follow these steps:
+To set up the Codegemini Blog Project, follow these steps:
 
 1. Clone the repository to your local machine
 ```
-gh repo clone sohamw03/iCoder
+gh repo clone sohamw03/Codegemini
 ```
 
 2. Create a virtual environment
@@ -73,4 +73,4 @@ http://localhost:8000/
 
 ## Credits
 
-The iCoder Blog Project was developed by me and inspired by CodeWithHarry.com
+The Codegemini Blog Project was developed by me and inspired by CodeWithHarry.com
